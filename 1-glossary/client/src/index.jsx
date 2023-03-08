@@ -17,9 +17,14 @@ const App = () => {
       definition: "Bigger than three, smaller than a billion."},
     ]
   )
+
+  const addWordToList = (wordObject) => {
+    setWordList([...wordList, wordObject])
+  }
+
   return(
     <div>
-      <AddForm/>
+      <AddForm handFormToParent={addWordToList}/>
       <FilterBox/>
       <EntryList wordList={wordList}/>
     </div>
