@@ -1,15 +1,34 @@
-import React from "react";
+import React, {useState} from "react";
 import { render } from "react-dom";
 import AddForm from './components/AddForm.jsx';
 import EntryList from './components/EntryList.jsx';
 import FilterBox from './components/FilterBox.jsx';
 
+const App = () => {
+  const [wordList, setWordList] = useState(
+    [
+      {word: "Apple",
+      definition: "Like Papple but with an A."},
+      {word: "Testword",
+      definition: "A word that only exists in tests, like 'loquatious'."},
+      {word: "Markus",
+      definition: "Awesome, singular, humble."},
+      {word: "Four",
+      definition: "Bigger than three, smaller than a billion."},
+    ]
+  )
+  return(
+    <div>
+      <AddForm/>
+      <FilterBox/>
+      <EntryList wordList={wordList}/>
+    </div>
+
+  )
+}
+
+
 render(
-  <div>
-    <p>Hello, World!</p>
-    <AddForm/>
-    <EntryList/>
-    <FilterBox/>
-  </div>,
+  <App/>,
   document.getElementById("root")
 );
