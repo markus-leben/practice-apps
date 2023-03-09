@@ -5,36 +5,55 @@ import EntryList from './components/EntryList.jsx';
 import FilterBox from './components/FilterBox.jsx';
 
 const App = () => {
-  const [wordList, setWordList] = useState(
-    [
-      {word: "Apple",
-      definition: "Like Papple but with an A.",
-      index: 0},
-      {word: "Testword",
-      definition: "A word that only exists in tests, like 'loquatious'.",
-      index: 1},
-      {word: "Markus",
-      definition: "Awesome, singular, humble.",
-      index: 2},
-      {word: "Four",
-      definition: "Bigger than three, smaller than a billion.",
-      index: 3},
-    ]
+  const [wordDict, setWordDict] = useState(
+    {
+      "Apple": "Like Papple but with an A.",
+      "Testword": "A word that only exists in tests, like 'loquatious'.",
+      "Markus": "Awesome, singular, humble.",
+      "Four" : "Bigger than three, smaller than a billion."
+    }
   );
 
   const [filter, setFilter] = useState("");
   // ordinarily I wouldn't hand off a set function, but this one is pretty bone simple.
 
   const addWordToList = (wordObject) => {
-    wordObject.index = wordList.length;
-    setWordList([...wordList, wordObject])
+    console.log(wordObject);
+    let wordClone = Object.assign({}, wordDict, wordObject);
+    setWordDict(wordClone);
   }
+
+  // // same slice and replace as delete, but with overwriting instead of splicing.
+  // const replaceWordInList = (editIndex, newWord) => {
+  //   let wordClone = wordList.slice();
+  //   wordClone[editIndex] = newWord;
+  //   setWordList(wordClone);
+  // }
+
+  const removeWordFromList = (word) => {
+    let wordClone = Object.assign({}, wordDict);
+    delete wordClone[word];
+    setWordDict(wordClone);
+  }
+
+  // const removeIndexFromList = (delIndex) => {
+  //   let wordClone = wordList.slice();
+  //   wordClone.splice(delIndex, 1);
+  //   for (let word = delIndex; word < wordClone.length; word++) {
+  //     wordClone[word]['index'] -= 1;
+  //   }
+  //   setWordList(wordClone);
+  // }
 
   return(
     <div>
       <AddForm handFormToParent={addWordToList}/>
       <FilterBox parentFilter={filter} handFilterToParent={setFilter}/>
-      <EntryList wordList={wordList}/>
+      <EntryList
+        filter={filter}
+        wordDict={wordDict}
+        remove={removeWordFromList}
+        handFormToParent={addWordToList}/>
     </div>
 
   )
