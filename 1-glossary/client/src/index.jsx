@@ -18,23 +18,26 @@ const App = () => {
   // ordinarily I wouldn't hand off a set function, but this one is pretty bone simple.
 
   const addWordToList = (wordObject) => {
-    console.log(wordObject);
+    // console.log(wordObject);
     let wordClone = Object.assign({}, wordDict, wordObject);
     setWordDict(wordClone);
   }
 
-  // // same slice and replace as delete, but with overwriting instead of splicing.
-  // const replaceWordInList = (editIndex, newWord) => {
-  //   let wordClone = wordList.slice();
-  //   wordClone[editIndex] = newWord;
-  //   setWordList(wordClone);
-  // }
+  const changeWordInList = (oldWord, wordObject) => {
+    let wordClone = Object.assign({}, wordDict);
+    delete wordClone[oldWord];
+    wordClone = Object.assign(wordClone, wordObject);
+    setWordDict(wordClone);
+  }
+
 
   const removeWordFromList = (word) => {
     let wordClone = Object.assign({}, wordDict);
     delete wordClone[word];
     setWordDict(wordClone);
   }
+
+
 
   // const removeIndexFromList = (delIndex) => {
   //   let wordClone = wordList.slice();
@@ -53,7 +56,7 @@ const App = () => {
         filter={filter}
         wordDict={wordDict}
         remove={removeWordFromList}
-        handFormToParent={addWordToList}/>
+        handFormToParent={changeWordInList}/>
     </div>
 
   )

@@ -2,12 +2,20 @@ const mongoose = require("mongoose");
 mongoose.connect('mongodb://127.0.0.1:27017/glossary');
 
 const wordSchema = {
-  word: String,
-  definition: String,
-  index: {type: Number, index: true}
-}
+  word: {type: String, unique: true},
+  definition: String
+};
 
 const Words = mongoose.model('Words', wordSchema);
+
+const addOrReplace = (word, definition) => {
+  return Words.findOneAndUpdate({word: word}, {word: word, definition: definition}, {upsert: true})
+};
+
+const remove = (word) => {
+  return Words.findOneAndDelete({word: word})
+};
+
 
 //use findoneandupdate
 
