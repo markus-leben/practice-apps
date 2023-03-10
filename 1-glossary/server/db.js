@@ -8,13 +8,22 @@ const wordSchema = {
 
 const Words = mongoose.model('Words', wordSchema);
 
-const addOrReplace = (word, definition) => {
-  return Words.findOneAndUpdate({word: word}, {word: word, definition: definition}, {upsert: true})
+const getAll = () => {
+  return Words.find({});
+}
+
+const addOrReplace = (wordObj) => {
+  console.log(wordObj)
+  return Words.findOneAndUpdate({word: wordObj.word}, {word: wordObj.word, definition: wordObj.definition}, {upsert: true})
 };
 
 const remove = (word) => {
   return Words.findOneAndDelete({word: word})
 };
+
+module.exports.getAll = getAll;
+module.exports.addOrReplace = addOrReplace;
+module.exports.remove = remove;
 
 
 //use findoneandupdate
